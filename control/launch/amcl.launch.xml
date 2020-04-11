@@ -1,0 +1,18 @@
+<launch> 
+ 
+  <!-- Map server --> 
+  <arg name="map_file" default="$/home/robert/catkin_ws/src/control/launch/test1.yaml"/> 
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" /> 
+ 
+ 
+  <include file="$/home/robert/catkin_ws/src/control/launch/amcl.launch.xml"> 
+ 
+    <arg name="initial_pose_x" value="0"/> 
+    <arg name="initial_pose_y" value="0"/> 
+    <arg name="initial_pose_a" value="0"/> 
+ 
+  </include> 
+ 
+  <include file="$(find diff_wheeled_robot_gazebo)/launch/includes/move_base.launch.xml"/> 
+ 
+</launch> 

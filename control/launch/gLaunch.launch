@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+<launch> 
+  
+ 
+<!-- Defining parameters for slam_gmapping node --> 
+ 
+	
+ 
+  
+ 
+  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="1 0 0 0 0 0 base_link laser 100" />
+  <node pkg="tf" type="static_transform_publisher" name="link2_broadcaster" args="1 0 0 0 0 0 odom base_link 100" />
+ 
+  <arg name="scan_topic"  default="/laser/scan" />
+  <arg name="base_frame"  default="base_link"/>
+  <arg name="odom_frame"  default="odom"/>
+	<arg name="map_frame" default="map"/>
+
+	<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    
+		<param name="base_frame" value="$(arg base_frame)"/>
+		<param name="map_frame" value="$(arg map_frame)"/>
+    <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="map_update_interval" value="0.5"/>
+    
+		<param name="maxUrange" value="5.5"/>
+    <param name="maxRange" value="5.5"/> 
+		<param name="particles" value="100"/>
+    
+		<param name="sigma" value="0.05"/>
+    <param name="kernelSize" value="1"/>
+    <param name="lstep" value="0.05"/>
+    <param name="astep" value="0.05"/>
+    <param name="iterations" value="5"/>
+    <param name="lsigma" value="0.075"/>
+    <param name="ogain" value="3.0"/>
+    <param name="lskip" value="0"/>
+    <param name="minimumScore" value="50"/>
+   
+    
+		<param name="linearUpdate" value="0.2"/>
+    <param name="angularUpdate" value="0.25"/>
+    <param name="temporalUpdate" value="5"/>
+    <param name="resampleThreshold" value="0.5"/>
+   
+  <!--
+    <param name="xmin" value="-50.0"/>
+    <param name="ymin" value="-50.0"/>
+    <param name="xmax" value="50.0"/>
+    <param name="ymax" value="50.0"/>
+  make the starting size small for the benefit of the Android client's memory...
+  
+    <param name="xmin" value="-1.0"/>
+    <param name="ymin" value="-1.0"/>
+    <param name="xmax" value="1.0"/>
+    <param name="ymax" value="1.0"/>
+-->
+ 
+    <param name="delta" value="0.025"/>
+    <param name="llsamplerange" value="0.01"/>
+    <param name="llsamplestep" value="0.01"/>
+    <param name="lasamplerange" value="0.005"/>
+    <param name="lasamplestep" value="0.005"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+  </node>
+
+
+
+<!--
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"> 
+	<rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+    <rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/local_costmap_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/global_costmap_params.yaml" command="load" ns="global_costmap"/> 
+    <rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/base_local_planner_params.yaml" command="load" ns="TrajectoryPlannerROS"/>
+	<rosparam file="/home/robert/catkin_ws/src/quadcopter_2dnav/move_base_params.yaml" command="load" /> 
+  </node> 
+-->
+
+
+
+</launch>
+ 
+<!-- Defining parameters for move_base node --> 
+ 
+   
+ 

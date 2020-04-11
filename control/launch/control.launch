@@ -1,0 +1,5 @@
+<launch>
+<node name="height_control" pkg="control" type="height_control"/>
+<node name="stabilisation" pkg="control" type="stabilisation"/>
+<node name="collector" pkg="control" type="collector"/>
+</launch>
